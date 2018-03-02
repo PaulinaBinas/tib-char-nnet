@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TibetanCharactersNeuralNetwork.iml" filepath="$PROJECT_DIR$/TibetanCharactersNeuralNetwork.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TibetanCharactersNeuralNetwork_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TibetanCharactersNeuralNetwork_main.iml" group="TibetanCharactersNeuralNetwork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TibetanCharactersNeuralNetwork_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TibetanCharactersNeuralNetwork_test.iml" group="TibetanCharactersNeuralNetwork" />
     </modules>
   </component>
 </project>

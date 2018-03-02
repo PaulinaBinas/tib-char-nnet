@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>org.boofcv</groupId>
-            <artifactId>boofcv-core</artifactId>
+            <artifactId>boofcv-all</artifactId>
             <version>0.28</version>
         </dependency>
     </dependencies>

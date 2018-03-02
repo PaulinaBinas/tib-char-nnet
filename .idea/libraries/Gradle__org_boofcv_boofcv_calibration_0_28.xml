@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.boofcv:boofcv-calibration:0.28">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.boofcv/boofcv-calibration/0.28/51483a0f230f63e0be1115d7fbf6de11cf7c3969/boofcv-calibration-0.28.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.boofcv/boofcv-calibration/0.28/60930fd8dae4a6be9a99563ef00d677ec6791ef5/boofcv-calibration-0.28-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
