@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TibetanCharactersNeuralNetwork" target="1.5" />
+      <module name="TibetanCharactersNeuralNetwork" target="1.8" />
       <module name="TibetanCharactersNeuralNetwork_main" target="1.5" />
       <module name="TibetanCharactersNeuralNetwork_test" target="1.5" />
     </bytecodeTargetLevel>
