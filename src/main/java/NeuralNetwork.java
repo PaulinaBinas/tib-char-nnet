@@ -17,20 +17,44 @@ public class NeuralNetwork {
         initRandomWeights();
     }
 
-    public void train(Matrix input, Matrix trainingOutput) {
+    public void train(Matrix input, Matrix targetOutput) {
+        Matrix output = this.query(input);
+        Matrix error = targetOutput.minus(output);
 
+        hiddenNodes = inHiddenWeights.multiply(input);
+        hiddenNodes = hiddenNodes.applySigmoid();
+
+        //back-propagation
+        Matrix outError = hiddenOutWeights.transpose().multiply(error);
+        Matrix updatedWeights = outError.multiply(learningRate);
+        updatedWeights = updatedWeights.elementsMultiply(output.applySigmoid());
+        updatedWeights = updatedWeights.elementsMultiply(output.applySigmoid().oneMinusMatrix());
+        hiddenOutWeights = updatedWeights.multiply(hiddenNodes.transpose());
+        System.out.println("updated weights: " + hiddenOutWeights);
     }
 
     public Matrix query(Matrix input) {
         System.out.println("input nodes: " + input);
-        inputNodes = input.transpose();
-        hiddenNodes = inHiddenWeights.multiply(inputNodes);
+        hiddenNodes = inHiddenWeights.multiply(input);
         hiddenNodes = hiddenNodes.applySigmoid();
-        System.out.println("hidden nodes: " + hiddenNodes);
-        outputNodes = hiddenOutWeights.multiply(hiddenNodes.transpose());
+        outputNodes = hiddenOutWeights.multiply(hiddenNodes);
         outputNodes = outputNodes.applySigmoid();
         System.out.println("output nodes: " + outputNodes);
         return outputNodes;
+    }
+
+    public boolean compareError(Matrix input, Matrix targetOutput, double targetThreshold) {
+        Matrix output = this.query(input);
+        Matrix error = targetOutput.minus(output);
+        for(int i = 0; i < error.getLength(); i++) {
+            for(int j = 0; j < error.getHeight(); j++) {
+                if(targetOutput.getElement(i, j) - error.getElement(i, j) > targetThreshold) {
+                    return false;
+                }
+            }
+        }
+        System.out.println("final errors: " + error);
+        return true;
     }
 
     private void initRandomWeights() {

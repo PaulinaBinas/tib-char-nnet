@@ -37,10 +37,10 @@ public class Matrix {
 
     public Matrix multiply(Matrix m2) {
         Matrix m1 = this;
-        if(m1.getLength() != m2.getHeight()) {
+        if(m1.getHeight() != m2.getLength()) {
             return null;
         }
-        Matrix result = new Matrix(m1.getHeight(), m2.getLength());
+        Matrix result = new Matrix(m1.getLength(), m2.getHeight());
         double dotProduct = 0;
         for(int i = 0; i < m1.getLength(); i++) { //choosing rows of m1
             for(int k = 0; k < m2.getHeight(); k++) { //choosing columns of m2
@@ -49,6 +49,55 @@ public class Matrix {
                 }
                 result.setElement(i, k, dotProduct);
                 dotProduct = 0;
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix elementsMultiply(Matrix m) {
+        if(length == m.getLength() && height == m.getHeight()) {
+
+            Matrix result = new Matrix(length, height);
+            for (int i = 0; i < length; i++) {
+                for (int j = 0; j < height; j++) {
+                    result.setElement(i, j, m.getElement(i, j) * this.getElement(i, j));
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public Matrix multiply(double l) {
+        Matrix result = new Matrix(length, height);
+        for(int i = 0; i < length; i++) {
+            for(int j = 0; j < height; j++) {
+                result.setElement(i, j, this.getElement(i, j) * l);
+            }
+        }
+        return result;
+    }
+
+    public Matrix minus(Matrix m) {
+        if(m.getLength() == length && m.getHeight() == height) {
+            Matrix result = new Matrix(length, height);
+            for(int i = 0; i < length; i++) {
+                for(int j = 0; j < height; j++){
+                    double temp = this.getElement(i, j) - m.getElement(i, j);
+                    result.setElement(i, j, temp);
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public Matrix oneMinusMatrix() {
+        Matrix result = new Matrix(length, height);
+        for(int i = 0; i < length; i++) {
+            for(int j = 0; j < height; j++){
+                result.setElement(i, j, 1 - this.getElement(i, j));
             }
         }
         return result;
@@ -68,7 +117,7 @@ public class Matrix {
         Matrix result = new Matrix(length, height);
         for (int i = 0; i < length; i++) {
             for(int j = 0; j < height; j++) {
-                double sig = 1 / (1 + (Math.pow(Math.E, this.getElement(i, j))));
+                double sig = 1 / (1 + (Math.pow(Math.E, -(this.getElement(i, j)))));
                 result.setElement(i, j, sig);
             }
         }
