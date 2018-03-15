@@ -93,6 +93,20 @@ public class Matrix {
         return null;
     }
 
+    public Matrix plus(Matrix m) {
+        if(m.getLength() == length && m.getHeight() == height) {
+            Matrix result = new Matrix(length, height);
+            for(int i = 0; i < length; i++) {
+                for(int j = 0; j < height; j++){
+                    double temp = this.getElement(i, j) + m.getElement(i, j);
+                    result.setElement(i, j, temp);
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
     public Matrix oneMinusMatrix() {
         Matrix result = new Matrix(length, height);
         for(int i = 0; i < length; i++) {

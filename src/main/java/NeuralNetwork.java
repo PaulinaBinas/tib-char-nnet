@@ -18,28 +18,33 @@ public class NeuralNetwork {
     }
 
     public void train(Matrix input, Matrix targetOutput) {
-        Matrix output = this.query(input);
-        Matrix error = targetOutput.minus(output);
-
         hiddenNodes = inHiddenWeights.multiply(input);
         hiddenNodes = hiddenNodes.applySigmoid();
 
-        //back-propagation
-        Matrix outError = hiddenOutWeights.transpose().multiply(error);
-        Matrix updatedWeights = outError.multiply(learningRate);
-        updatedWeights = updatedWeights.elementsMultiply(output.applySigmoid());
-        updatedWeights = updatedWeights.elementsMultiply(output.applySigmoid().oneMinusMatrix());
-        hiddenOutWeights = updatedWeights.multiply(hiddenNodes.transpose());
-        System.out.println("updated weights: " + hiddenOutWeights);
+        Matrix finalOutputs = hiddenOutWeights.multiply(hiddenNodes);
+        finalOutputs = finalOutputs.applySigmoid();
+
+        Matrix outputError = targetOutput.minus(finalOutputs);
+        Matrix hiddenError = hiddenOutWeights.transpose().multiply(outputError);
+
+        Matrix temp = outputError.elementsMultiply(finalOutputs);
+        temp = temp.elementsMultiply(finalOutputs.oneMinusMatrix());
+        temp = temp.multiply(hiddenNodes.transpose());
+        temp = temp.multiply(learningRate);
+        hiddenOutWeights = hiddenOutWeights.plus(temp);
+
+        temp = hiddenError.elementsMultiply(hiddenNodes);
+        temp = temp.elementsMultiply(hiddenNodes.oneMinusMatrix());
+        temp = temp.multiply(input.transpose());
+        temp = temp.multiply(learningRate);
+        inHiddenWeights = inHiddenWeights.plus(temp);
     }
 
     public Matrix query(Matrix input) {
-        System.out.println("input nodes: " + input);
         hiddenNodes = inHiddenWeights.multiply(input);
         hiddenNodes = hiddenNodes.applySigmoid();
         outputNodes = hiddenOutWeights.multiply(hiddenNodes);
         outputNodes = outputNodes.applySigmoid();
-        System.out.println("output nodes: " + outputNodes);
         return outputNodes;
     }
 
@@ -48,7 +53,8 @@ public class NeuralNetwork {
         Matrix error = targetOutput.minus(output);
         for(int i = 0; i < error.getLength(); i++) {
             for(int j = 0; j < error.getHeight(); j++) {
-                if(targetOutput.getElement(i, j) - error.getElement(i, j) > targetThreshold) {
+                double e = error.getElement(i, j);
+                if((e > targetThreshold  && e > 0) || (e < ((-1) * targetThreshold) && e < 0)) {
                     return false;
                 }
             }
